@@ -1,0 +1,1 @@
+{"version":3,"file":"tile.component.js","sourceRoot":"","sources":["tile.component.ts"],"names":[],"mappings":";;;;;;;;;AAAA,OAAO,EACL,SAAS,EAEV,MAAM,eAAe,CAAC;AAOvB,IAAa,aAAa,GAA1B;IACE,gBAAgB,CAAC;IAEjB,QAAQ,KAAK,CAAC;CACf,CAAA;AAJY,aAAa;IALzB,SAAS,CAAC;QACT,QAAQ,EAAE,SAAS;QACnB,WAAW,EAAE,uBAAuB;QACpC,SAAS,EAAE,CAAC,uBAAuB,CAAC;KACrC,CAAC;;GACW,aAAa,CAIzB;SAJY,aAAa"}

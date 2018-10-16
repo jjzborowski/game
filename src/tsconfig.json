@@ -1,0 +1,50 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es7",
+      "es6",
+      "dom"
+    ],
+    "mapRoot": ".",
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "./dist/out-tsc",
+    "paths": {
+      "@contracts": [
+        "app/contracts/index.ts"
+      ],
+      "@directives": [
+        "app/directives/index.ts"
+      ],
+      "@constants": [
+        "app/constants/index.ts"
+      ],
+      "@components": [
+        "app/components/index.ts"
+      ],
+      "@interfaces": [
+        "app/interfaces/index.ts"
+      ],
+      "@services": [
+        "app/services/index.ts"
+      ]
+    },
+    "sourceMap": true,
+    "target": "es6",
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "types": []
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}

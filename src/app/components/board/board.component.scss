@@ -1,0 +1,69 @@
+.board {
+  &-row {
+    display: flex;
+  }
+
+  &-cell {
+    border: 1px solid black;
+    display: flex;
+    margin: 1px;
+    min-height: 100px;
+    min-width: 100px;
+
+    &__neighboring {
+      border: 1px solid black;
+    }
+
+    &-far {
+      &-top,
+      &-top-right,
+      &-right,
+      &-bottom-right,
+      &-bottom,
+      &-bottom-left,
+      &-left,
+      &-top-left {
+        border: 1px solid;
+        border-image-slice: 1;
+        opacity: 0;
+        transition: opacity 600ms;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      &-top {
+        border-image: linear-gradient(0deg, black 30%, transparent, transparent);
+      }
+
+      &-top-right {
+        border-image: linear-gradient(45deg, black 10%, transparent, transparent, transparent, transparent);
+      }
+
+      &-right {
+        border-image: linear-gradient(90deg, black 30%, transparent, transparent);
+      }
+
+      &-bottom-right {
+        border-image: linear-gradient(135deg, black 10%, transparent, transparent, transparent, transparent);
+      }
+
+      &-bottom {
+        border-image: linear-gradient(180deg, black 30%, transparent, transparent);
+      }
+
+      &-bottom-left {
+        border-image: linear-gradient(225deg, black 10%, transparent, transparent, transparent, transparent);
+      }
+
+      &-left {
+        border-image: linear-gradient(270deg, black 30%, transparent, transparent);
+      }
+
+      &-top-left {
+        border-image: linear-gradient(315deg, black 10%, transparent, transparent, transparent, transparent);
+      }
+    }
+  }
+}
