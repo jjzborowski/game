@@ -18,45 +18,55 @@
       color: white;
     }
 
+    &-outer,
+    &-inner {
+      opacity: 0;
+      transition: opacity 600ms;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     &-outer {
       border: 1px solid;
       border-image-slice: 1;
 
       &.board-cell {
         &-top {
-          border-image: linear-gradient(180deg, black, transparent 25%, transparent 100%, black);
+          border-image: linear-gradient(0deg, black, transparent 25%, transparent 100%, black);
 
           &.board-cell {
             &-left {
-              border-image: linear-gradient(135deg, black, transparent 12.5%, transparent 100%, black);
+              border-image: linear-gradient(315deg, black, transparent 12.5%, transparent 100%, black);
             }
 
             &-right {
-              border-image: linear-gradient(225deg, black, transparent 12.5%, transparent 100%, black);
+              border-image: linear-gradient(45deg, black, transparent 12.5%, transparent 100%, black);
             }
           }
         }
 
         &-bottom {
-          border-image: linear-gradient(0deg, black, transparent 25%, transparent 100%, black);
+          border-image: linear-gradient(180deg, black, transparent 25%, transparent 100%, black);
 
           &.board-cell {
             &-left {
-              border-image: linear-gradient(45deg, black, transparent 12.5%, transparent 100%, black);
+              border-image: linear-gradient(225deg, black, transparent 12.5%, transparent 100%, black);
             }
 
             &-right {
-              border-image: linear-gradient(315deg, black, transparent 12.5%, transparent 100%, black);
+              border-image: linear-gradient(135deg, black, transparent 12.5%, transparent 100%, black);
             }
           }
         }
 
         &-left {
-          border-image: linear-gradient(90deg, black, transparent 25%, transparent 100%, black);
+          border-image: linear-gradient(270deg, black, transparent 25%, transparent 100%, black);
         }
 
         &-right {
-          border-image: linear-gradient(270deg, black, transparent 25%, transparent 100%, black);
+          border-image: linear-gradient(90deg, black, transparent 25%, transparent 100%, black);
         }
       }
     }

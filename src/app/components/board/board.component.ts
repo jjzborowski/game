@@ -13,8 +13,10 @@ export class BoardComponent implements OnInit {
   public boardData = {
     0: {
       0: {
+        classes: {},
         define: true,
-        name: 'test 0'
+        name: 'test 0',
+        neighbors: 0
       }
     }
   };
@@ -41,47 +43,96 @@ export class BoardComponent implements OnInit {
       for (let columnIndex = this.minColumnIndex; columnIndex < this.maxColumnIndex + 1; columnIndex++) {
         if (!this.boardData[rowIndex][columnIndex]) {
           this.boardData[rowIndex][columnIndex] = {
-            define: false
+            classes: {},
+            define: false,
+            neighbors: 0
           };
         }
       }
     }
+    this.setClasses();
     console.log(this.boardData);
   }
 
-  private defineNextTiles(rowIndex: number, columnIndex: number): void {
-    if (this.boardData[rowIndex - 1][columnIndex - 1]) {
-
+  private setClasses(): void {
+    for (let rowIndex = this.minRowIndex; rowIndex < this.maxRowIndex + 1; rowIndex++) {
+      for (let columnIndex = this.minColumnIndex; columnIndex < this.maxColumnIndex + 1; columnIndex++) {
+        this.boardData[rowIndex][columnIndex].classes = {};
+        this.setNeighbors(rowIndex, columnIndex);
+        if (this.boardData[rowIndex][columnIndex].classes.inner) {
+          this.setInnerClasses(rowIndex, columnIndex);
+        }
+        if (this.boardData[rowIndex][columnIndex].classes.outer) {
+          this.setOuterClass(rowIndex, columnIndex);
+        }
+      }
     }
-    if (this.boardData[rowIndex - 1][columnIndex]) {
+  }
 
+  private setNeighbors(rowIndex: number, columnIndex: number): void {
+    const tile = this.boardData[rowIndex][columnIndex];
+    tile.neighbors = 0;
+    if (this.boardData[rowIndex - 1] && this.isDefined(rowIndex - 1, columnIndex)) {
+      tile.neighbors++;
     }
-    if (this.boardData[rowIndex - 1][columnIndex + 1]) {
-
+    if (this.isDefined(rowIndex, columnIndex - 1)) {
+      tile.neighbors++;
     }
-    if (this.boardData[rowIndex][columnIndex - 1]) {
-
+    if (this.isDefined(rowIndex, columnIndex + 1)) {
+      tile.neighbors++;
     }
-    if (this.boardData[rowIndex][columnIndex + 1]) {
-
+    if (this.boardData[rowIndex + 1] && this.isDefined(rowIndex + 1, columnIndex)) {
+      tile.neighbors++;
     }
-    if (this.boardData[rowIndex + 1][columnIndex - 1]) {
-
+    if (tile.neighbors > 1) {
+      tile.classes.inner = true;
+      tile.classes.outer = false;
+    } else {
+      tile.classes.inner = false;
+      tile.classes.outer = true;
     }
-    if (this.boardData[rowIndex + 1][columnIndex]) {
+  }
 
+  private setInnerClasses(rowIndex: number, columnIndex: number): void {
+    const tile = this.boardData[rowIndex][columnIndex];
+    if (!this.boardData[rowIndex - 1] || !this.isDefined(rowIndex - 1, columnIndex)) {
+      tile.classes.top = true;
     }
-    if (this.boardData[rowIndex + 1][columnIndex + 1]) {
+    if (!this.isDefined(rowIndex, columnIndex - 1)) {
+      tile.classes.left = true;
+    }
+    if (!this.isDefined(rowIndex, columnIndex + 1)) {
+      tile.classes.right = true;
+    }
+    if (!this.boardData[rowIndex + 1] || !this.isDefined(rowIndex + 1, columnIndex)) {
+      tile.classes.bottom = true;
+    }
+  }
 
+  private setOuterClass(rowIndex: number, columnIndex: number): void {
+    const tile = this.boardData[rowIndex][columnIndex];
+    if (!this.boardData[rowIndex - 1] || !this.boardData[rowIndex - 1][columnIndex]) {
+      tile.classes.top = true;
+    }
+    if (!this.boardData[rowIndex][columnIndex - 1]) {
+      tile.classes.left = true;
+    }
+    if (!this.boardData[rowIndex][columnIndex + 1]) {
+      tile.classes.right = true;
+    }
+    if (!this.boardData[rowIndex + 1] || !this.boardData[rowIndex + 1][columnIndex]) {
+      tile.classes.bottom = true;
     }
   }
 
   private addTile(rowIndex: number, columnIndex: number): void {
-    if (!this.boardData[rowIndex][columnIndex].define) {
+    if (this.isAvailable(rowIndex, columnIndex)) {
       this.tileIndex++;
       this.boardData[rowIndex][columnIndex] = {
+        classes: {},
         define: true,
-        name: `test ${this.tileIndex}`
+        name: `test ${this.tileIndex}`,
+        neighbors: 0
       };
       if (rowIndex === this.minRowIndex) {
         this.minRowIndex--;
@@ -95,6 +146,14 @@ export class BoardComponent implements OnInit {
       }
       this.fillBoardData();
     }
+  }
+
+  private isDefined(rowIndex: number, columnIndex: number): boolean {
+    return this.boardData[rowIndex][columnIndex] && this.boardData[rowIndex][columnIndex].define;
+  }
+
+  private isAvailable(rowIndex: number, columnIndex: number): boolean {
+    return this.boardData[rowIndex][columnIndex].neighbors;
   }
 
   private moveViewVertical(): void { }
