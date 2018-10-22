@@ -1,17 +1,213 @@
+<!--<div-->
+  <!--*ngFor="let row of boardData | keyvalue"-->
+  <!--class="board-row"-->
+<!--&gt;-->
+  <!--<div-->
+    <!--*ngFor="let cell of row.value | keyvalue"-->
+    <!--class="board-cell"-->
+    <!--[class.board-cell-defined]="cell.value.define"-->
+    <!--(click)="addTile(row.key * 1, cell.key * 1)"-->
+  <!--&gt;-->
+    <!--row {{ row.key }}-->
+    <!--<br>-->
+    <!--col {{ cell.key }}-->
+    <!--<br>-->
+    <!--{{ cell.value.name }}-->
+  <!--</div>-->
+<!--</div>-->
+
 <div class="board-row">
-  <div class="board-cell board-cell-far-top-left"></div>
-  <div class="board-cell board-cell-far-top"></div>
-  <div class="board-cell board-cell-far-top-right"></div>
+  <div class="board-cell board-cell-outer board-cell-bottom board-cell-right"></div>
+  <div class="board-cell board-cell-outer board-cell-bottom"></div>
+  <div class="board-cell board-cell-outer board-cell-bottom board-cell-left"></div>
 </div>
 <div class="board-row">
-  <div class="board-cell board-cell-far-left"></div>
-  <div class="board-cell">
-    <ui-tile></ui-tile>
-  </div>
-  <div class="board-cell board-cell-far-right"></div>
+<div class="board-cell board-cell-outer board-cell-right"></div>
+<div class="board-cell board-cell-defined"></div>
+<div class="board-cell board-cell-outer board-cell-left"></div>
 </div>
 <div class="board-row">
-  <div class="board-cell board-cell-far-bottom-left"></div>
-  <div class="board-cell board-cell-far-bottom"></div>
-  <div class="board-cell board-cell-far-bottom-right"></div>
+  <div class="board-cell board-cell-outer board-cell-top board-cell-right"></div>
+  <div class="board-cell board-cell-outer board-cell-top"></div>
+  <div class="board-cell board-cell-outer board-cell-top board-cell-left"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-outer board-cell-left"></div>
+  <div class="board-cell"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-top board-cell-right"></div>
+  <div class="board-cell board-cell-outer board-cell-bottom"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell"></div>
+  <div class="board-cell board-cell-outer board-cell-right"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-outer board-cell-bottom"></div>
+  <div class="board-cell board-cell-inner board-cell-top board-cell-left"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-bottom board-cell-right"></div>
+  <div class="board-cell board-cell-outer board-cell-top"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-outer board-cell-left"></div>
+  <div class="board-cell"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-outer board-cell-top"></div>
+  <div class="board-cell board-cell-inner board-cell-bottom board-cell-left"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell"></div>
+  <div class="board-cell board-cell-outer board-cell-right"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-right"></div>
+  <div class="board-cell board-cell-inner board-cell-left board-cell-right"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-inner board-cell-left board-cell-right"></div>
+  <div class="board-cell board-cell-inner board-cell-left"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-bottom board-cell-top"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-top"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-bottom"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner board-cell-bottom board-cell-top"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-inner"></div>
+  <div class="board-cell board-cell-defined"></div>
+</div>
+<div class="board-row">
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
+  <div class="board-cell board-cell-defined"></div>
 </div>

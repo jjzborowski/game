@@ -4,65 +4,113 @@
   }
 
   &-cell {
-    border: 1px solid black;
+    align-items: center;
+    border: 1px solid transparent;
     display: flex;
+    justify-content: center;
     margin: 1px;
     min-height: 100px;
     min-width: 100px;
 
-    &__neighboring {
+    &-defined {
+      background-color: black;
       border: 1px solid black;
+      color: white;
     }
 
-    &-far {
-      &-top,
-      &-top-right,
-      &-right,
-      &-bottom-right,
-      &-bottom,
-      &-bottom-left,
-      &-left,
-      &-top-left {
-        border: 1px solid;
-        border-image-slice: 1;
-        opacity: 0;
-        transition: opacity 600ms;
+    &-outer {
+      border: 1px solid;
+      border-image-slice: 1;
 
-        &:hover {
-          opacity: 1;
+      &.board-cell {
+        &-top {
+          border-image: linear-gradient(180deg, black, transparent 25%, transparent 100%, black);
+
+          &.board-cell {
+            &-left {
+              border-image: linear-gradient(135deg, black, transparent 12.5%, transparent 100%, black);
+            }
+
+            &-right {
+              border-image: linear-gradient(225deg, black, transparent 12.5%, transparent 100%, black);
+            }
+          }
+        }
+
+        &-bottom {
+          border-image: linear-gradient(0deg, black, transparent 25%, transparent 100%, black);
+
+          &.board-cell {
+            &-left {
+              border-image: linear-gradient(45deg, black, transparent 12.5%, transparent 100%, black);
+            }
+
+            &-right {
+              border-image: linear-gradient(315deg, black, transparent 12.5%, transparent 100%, black);
+            }
+          }
+        }
+
+        &-left {
+          border-image: linear-gradient(90deg, black, transparent 25%, transparent 100%, black);
+        }
+
+        &-right {
+          border-image: linear-gradient(270deg, black, transparent 25%, transparent 100%, black);
         }
       }
+    }
 
-      &-top {
-        border-image: linear-gradient(0deg, black 30%, transparent, transparent);
-      }
+    &-inner {
+      border: 1px solid black;
+      border-image-slice: 1;
 
-      &-top-right {
-        border-image: linear-gradient(45deg, black 10%, transparent, transparent, transparent, transparent);
-      }
+      &.board-cell {
+        &-bottom {
+          border-image: radial-gradient(farthest-side at 50% 100%, transparent 50%, black 100%);
 
-      &-right {
-        border-image: linear-gradient(90deg, black 30%, transparent, transparent);
-      }
+          &.board-cell {
+            &-left {
+              border-image: linear-gradient(225deg, black 50%, transparent 62.5%, transparent, transparent);
+            }
 
-      &-bottom-right {
-        border-image: linear-gradient(135deg, black 10%, transparent, transparent, transparent, transparent);
-      }
+            &-right {
+              border-image: linear-gradient(135deg, black 50%, transparent 62.5%, transparent, transparent);
+            }
 
-      &-bottom {
-        border-image: linear-gradient(180deg, black 30%, transparent, transparent);
-      }
+            &-top {
+              border-image: linear-gradient(90deg, black, transparent, transparent 50%, transparent, black);
+            }
+          }
+        }
 
-      &-bottom-left {
-        border-image: linear-gradient(225deg, black 10%, transparent, transparent, transparent, transparent);
-      }
+        &-top {
+          border-image: radial-gradient(farthest-side at 50% 0, transparent 50%, black 100%);
 
-      &-left {
-        border-image: linear-gradient(270deg, black 30%, transparent, transparent);
-      }
+          &.board-cell {
+            &-left {
+              border-image: linear-gradient(315deg, black 50%, transparent 62.5%, transparent, transparent);
+            }
 
-      &-top-left {
-        border-image: linear-gradient(315deg, black 10%, transparent, transparent, transparent, transparent);
+            &-right {
+              border-image: linear-gradient(45deg, black 50%, transparent 62.5%, transparent, transparent);
+            }
+          }
+        }
+
+        &-left {
+          border-image: radial-gradient(farthest-side at 0 50%, transparent 50%, black 100%);
+
+          &.board-cell {
+            &-right {
+              border-image: linear-gradient(0deg, black, transparent, transparent 50%, transparent, black);
+            }
+          }
+        }
+
+        &-right {
+          border-image: radial-gradient(farthest-side at 100% 50%, transparent 50%, black 100%);
+        }
       }
     }
   }
