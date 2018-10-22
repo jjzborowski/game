@@ -15,7 +15,7 @@
       "severity": "warn"
     },
     "eofline": true,
-    "forin": true,
+    "forin": false,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -116,6 +116,9 @@
       "check-separator",
       "check-type"
     ],
+    "no-unsafe-any": {
+      "severity": "warning"
+    },
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,

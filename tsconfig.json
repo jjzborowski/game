@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "outDir": "../dist/",
     "sourceMap": true,
     "declaration": false,
     "module": "es6",
@@ -17,6 +17,12 @@
       "es7",
       "es6",
       "dom"
-    ]
+    ],
+    "noImplicitAny": true,
+    "no-big-function": [true, 20],
+    "noImplicitReturns": true,
+    "strictFunctionTypes": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   }
 }
