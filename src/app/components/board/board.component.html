@@ -20,7 +20,7 @@
     <br>
     {{ cell.value.name }}
     <br>
-    neighbors {{ cell.value.neighbors }}
+    {{ cell.value.neighbors.diagonal + cell.value.neighbors.diameter }}
   </div>
 </div>
 
