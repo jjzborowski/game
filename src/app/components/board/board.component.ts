@@ -1,13 +1,13 @@
 import {
   Component,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { BoardService } from '@services';
 
 @Component({
   selector: 'ui-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss'],
+  styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
   public boardData = [
@@ -15,29 +15,27 @@ export class BoardComponent implements OnInit {
       {
         available: true,
         classes: {
-          inner: false,
-          outer: false,
+          topLeft: false,
           top: false,
+          topRight: false,
           right: false,
-          bottom: false,
           left: false,
+          bottomLeft: false,
+          bottom: false,
+          bottomRight: false
         },
         define: true,
         name: 'test 0',
-        neighbors: {
-          diagonal: 0,
-          diameter: 0,
-        },
-      },
-    ],
+        neighbors: 0
+      }
+    ]
   ];
   private tileIndex = 0;
   private viewPositionX = 0;
   private viewPositionY = 0;
   private zoom = 0;
 
-  constructor(private boardService: BoardService) {
-  }
+  constructor(private boardService: BoardService) { }
 
   ngOnInit() {
     this.initBoardData();
@@ -52,82 +50,60 @@ export class BoardComponent implements OnInit {
   }
 
   private setBoardData(): void {
-    this.setTilesNeighbors();
-    this.setTilesClasses();
-    console.log(this.boardData);
-  }
-
-  private setTilesNeighbors(): void {
     this.boardData.forEach((row, rowIndex) => {
       row.forEach((tile, columnIndex) => {
-        tile.neighbors = {
-          diagonal: 0,
-          diameter: 0,
+        tile.classes = {
+          topLeft: false,
+          top: false,
+          topRight: false,
+          right: false,
+          left: false,
+          bottomLeft: false,
+          bottom: false,
+          bottomRight: false
         };
+        tile.neighbors = 0;
         if (this.boardData[rowIndex - 1]) {
           if (this.isDefined(rowIndex - 1, columnIndex - 1)) {
-            tile.neighbors.diagonal++;
+            tile.classes.topLeft = true;
+            tile.neighbors++;
           }
           if (this.isDefined(rowIndex - 1, columnIndex)) {
-            tile.neighbors.diameter++;
+            tile.classes.top = true;
+            tile.neighbors++;
           }
           if (this.isDefined(rowIndex - 1, columnIndex + 1)) {
-            tile.neighbors.diagonal++;
+            tile.classes.topRight = true;
+            tile.neighbors++;
           }
         }
         if (this.isDefined(rowIndex, columnIndex - 1)) {
-          tile.neighbors.diameter++;
+          tile.classes.left = true;
+          tile.neighbors++;
         }
         if (this.isDefined(rowIndex, columnIndex + 1)) {
-          tile.neighbors.diameter++;
+          tile.classes.right = true;
+          tile.neighbors++;
         }
         if (this.boardData[rowIndex + 1]) {
           if (this.isDefined(rowIndex + 1, columnIndex - 1)) {
-            tile.neighbors.diagonal++;
+            tile.classes.bottomLeft = true;
+            tile.neighbors++;
           }
           if (this.isDefined(rowIndex + 1, columnIndex)) {
-            tile.neighbors.diameter++;
+            tile.classes.bottom = true;
+            tile.neighbors++;
           }
           if (this.isDefined(rowIndex + 1, columnIndex + 1)) {
-            tile.neighbors.diagonal++;
+            tile.classes.bottomRight = true;
+            tile.neighbors++;
           }
         }
-        if (tile.neighbors.diameter > 1) {
-          tile.classes.inner = true;
-          tile.classes.outer = false;
-        } else {
-          tile.classes.inner = false;
-          tile.classes.outer = true;
-        }
         if (!tile.define) {
-          this.setTileAvailable(tile);
+          tile.available = tile.neighbors > 0;
         }
       });
     });
-  }
-
-  private setTileAvailable(tile): void {
-    tile.available = tile.neighbors.diagonal + tile.neighbors.diameter > 0;
-  }
-
-  private setTilesClasses(): void {
-    this.boardData.forEach((row, rowIndex) => {
-      row.forEach((tile, columnIndex) => {
-        if (tile.neighbors.diameter && tile.classes.inner) {
-          this.setTileClasses(tile, rowIndex, columnIndex, this.isDefined);
-        }
-        if (tile.available && tile.classes.outer) {
-          this.setTileClasses(tile, rowIndex, columnIndex, this.isAvailable);
-        }
-      });
-    });
-  }
-
-  private setTileClasses(tile, rowIndex: number, columnIndex: number, checkFunction: Function): void {
-    tile.classes.top = !this.boardData[rowIndex - 1] || !checkFunction(rowIndex - 1, columnIndex);
-    tile.classes.right = !checkFunction(rowIndex, columnIndex + 1);
-    tile.classes.bottom = !this.boardData[rowIndex + 1] || !checkFunction(rowIndex + 1, columnIndex);
-    tile.classes.left = !checkFunction(rowIndex, columnIndex - 1);
   }
 
   private addLeadingRow(): void {
@@ -140,24 +116,44 @@ export class BoardComponent implements OnInit {
     this.populateRow(this.boardData.length - 1);
   }
 
+  private populateRow(rowIndex): void {
+    for (let columnIndex = 0; columnIndex < this.boardData[1].length; columnIndex++) {
+      this.boardData[rowIndex].push({
+        available: false,
+        classes: {
+          topLeft: false,
+          top: false,
+          topRight: false,
+          right: false,
+          left: false,
+          bottomLeft: false,
+          bottom: false,
+          bottomRight: false
+        },
+        define: false,
+        name: '',
+        neighbors: 0
+      });
+    }
+  }
+
   private addLeadingColumn(): void {
     this.boardData.forEach(row => {
       row.unshift({
         available: false,
         classes: {
-          inner: false,
-          outer: false,
+          topLeft: false,
           top: false,
+          topRight: false,
           right: false,
-          bottom: false,
           left: false,
+          bottomLeft: false,
+          bottom: false,
+          bottomRight: false
         },
         define: false,
         name: '',
-        neighbors: {
-          diagonal: 0,
-          diameter: 0,
-        },
+        neighbors: 0
       });
     });
   }
@@ -167,62 +163,39 @@ export class BoardComponent implements OnInit {
       row.push({
         available: false,
         classes: {
-          inner: false,
-          outer: false,
+          topLeft: false,
           top: false,
+          topRight: false,
           right: false,
-          bottom: false,
           left: false,
+          bottomLeft: false,
+          bottom: false,
+          bottomRight: false
         },
         define: false,
         name: '',
-        neighbors: {
-          diagonal: 0,
-          diameter: 0,
-        },
+        neighbors: 0
       });
     });
   }
 
-  private populateRow(rowIndex): void {
-    for (let columnIndex = 0; columnIndex < this.boardData[1].length; columnIndex++) {
-      this.boardData[rowIndex].push({
-        available: false,
-        classes: {
-          inner: false,
-          outer: false,
-          top: false,
-          right: false,
-          bottom: false,
-          left: false,
-        },
-        define: false,
-        name: '',
-        neighbors: {
-          diagonal: 0,
-          diameter: 0,
-        },
-      });
-    }
-  }
-
-  private isDefined = (rowIndex: number, columnIndex: number): boolean => {
+  private isDefined(rowIndex: number, columnIndex: number): boolean {
     if (this.boardData[rowIndex]) {
       const tile = this.boardData[rowIndex][columnIndex];
       return tile && tile.define;
     } else {
       return false;
     }
-  };
+  }
 
-  private isAvailable = (rowIndex: number, columnIndex: number): boolean => {
+  private isAvailable(rowIndex: number, columnIndex: number): boolean {
     if (this.boardData[rowIndex]) {
       const tile = this.boardData[rowIndex][columnIndex];
       return tile && tile.available;
     } else {
       return false;
     }
-  };
+  }
 
   private addTile(rowIndex: number, columnIndex: number): void {
     if (!this.isDefined(rowIndex, columnIndex) && this.isAvailable(rowIndex, columnIndex)) {
