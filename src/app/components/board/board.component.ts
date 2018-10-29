@@ -2,6 +2,8 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { TileComponent } from '@components';
+import { Tile } from '@interfaces';
 import { BoardService } from '@services';
 
 @Component({
@@ -10,26 +12,7 @@ import { BoardService } from '@services';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-  public boardData = [
-    [
-      {
-        available: true,
-        classes: {
-          topLeft: false,
-          top: false,
-          topRight: false,
-          right: false,
-          left: false,
-          bottomLeft: false,
-          bottom: false,
-          bottomRight: false
-        },
-        define: true,
-        name: 'test 0',
-        neighbors: 0
-      }
-    ]
-  ];
+  public boardData: [Tile[]];
   private tileIndex = 0;
   private viewPositionX = 0;
   private viewPositionY = 0;
@@ -42,11 +25,17 @@ export class BoardComponent implements OnInit {
   }
 
   private initBoardData(): void {
+    this.setInitialTile();
     this.addLeadingRow();
     this.addTrailingRow();
     this.addLeadingColumn();
     this.addTrailingColumn();
     this.setBoardData();
+  }
+
+  private setInitialTile(): void {
+    this.boardData = [[new Tile()]];
+    this.boardData[0][0].define = true;
   }
 
   private setBoardData(): void {
@@ -62,6 +51,8 @@ export class BoardComponent implements OnInit {
           bottom: false,
           bottomRight: false
         };
+        tile.rowIndex = rowIndex;
+        tile.columnIndex = columnIndex;
         tile.neighbors = 0;
         if (this.boardData[rowIndex - 1]) {
           if (this.isDefined(rowIndex - 1, columnIndex - 1)) {
@@ -118,64 +109,19 @@ export class BoardComponent implements OnInit {
 
   private populateRow(rowIndex): void {
     for (let columnIndex = 0; columnIndex < this.boardData[1].length; columnIndex++) {
-      this.boardData[rowIndex].push({
-        available: false,
-        classes: {
-          topLeft: false,
-          top: false,
-          topRight: false,
-          right: false,
-          left: false,
-          bottomLeft: false,
-          bottom: false,
-          bottomRight: false
-        },
-        define: false,
-        name: '',
-        neighbors: 0
-      });
+      this.boardData[rowIndex].push(new Tile());
     }
   }
 
   private addLeadingColumn(): void {
     this.boardData.forEach(row => {
-      row.unshift({
-        available: false,
-        classes: {
-          topLeft: false,
-          top: false,
-          topRight: false,
-          right: false,
-          left: false,
-          bottomLeft: false,
-          bottom: false,
-          bottomRight: false
-        },
-        define: false,
-        name: '',
-        neighbors: 0
-      });
+      row.unshift(new Tile());
     });
   }
 
   private addTrailingColumn(): void {
     this.boardData.forEach(row => {
-      row.push({
-        available: false,
-        classes: {
-          topLeft: false,
-          top: false,
-          topRight: false,
-          right: false,
-          left: false,
-          bottomLeft: false,
-          bottom: false,
-          bottomRight: false
-        },
-        define: false,
-        name: '',
-        neighbors: 0
-      });
+      row.push(new Tile());
     });
   }
 
@@ -197,23 +143,20 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  private addTile(rowIndex: number, columnIndex: number): void {
-    if (!this.isDefined(rowIndex, columnIndex) && this.isAvailable(rowIndex, columnIndex)) {
-      this.tileIndex++;
-      this.boardData[rowIndex][columnIndex].define = true;
-      this.boardData[rowIndex][columnIndex].name = `test ${this.tileIndex}`;
-      if (rowIndex === 0) {
-        this.addLeadingRow();
-      } else if (rowIndex === this.boardData.length - 1) {
-        this.addTrailingRow();
-      }
-      if (columnIndex === 0) {
-        this.addLeadingColumn();
-      } else if (columnIndex === this.boardData[rowIndex].length - 1) {
-        this.addTrailingColumn();
-      }
-      this.setBoardData();
+  private addTile(tile: Tile): void {
+    console.log(tile);
+    this.tileIndex++;
+    if (tile.rowIndex === 0) {
+      this.addLeadingRow();
+    } else if (tile.rowIndex === this.boardData.length - 1) {
+      this.addTrailingRow();
     }
+    if (tile.columnIndex === 0) {
+      this.addLeadingColumn();
+    } else if (tile.columnIndex === this.boardData[tile.rowIndex].length - 1) {
+      this.addTrailingColumn();
+    }
+    this.setBoardData();
   }
 
   private moveViewVertical(): void {

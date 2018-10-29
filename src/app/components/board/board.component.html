@@ -2,27 +2,10 @@
   *ngFor="let row of boardData | keyvalue"
   class="board-row"
 >
-  <div
+  <ui-tile
     *ngFor="let cell of row.value | keyvalue"
     class="board-cell"
-    [class.board-cell-defined]="cell.value.define"
-    [class.board-cell-available]="cell.value.available && !cell.value.define"
-    [class.board-cell-top]="cell.value.classes.top"
-    [class.board-cell-right]="cell.value.classes.right"
-    [class.board-cell-left]="cell.value.classes.left"
-    [class.board-cell-bottom]="cell.value.classes.bottom"
-    (click)="addTile(row.key * 1, cell.key * 1)"
-  >
-    <span *ngIf="cell.value.classes.topLeft || cell.value.classes.top || cell.value.classes.left" class="board-cell-top-left"></span>
-    <span *ngIf="cell.value.classes.topRight || cell.value.classes.top || cell.value.classes.right" class="board-cell-top-right"></span>
-    <span *ngIf="cell.value.classes.bottomLeft || cell.value.classes.bottom || cell.value.classes.left" class="board-cell-bottom-left"></span>
-    <span *ngIf="cell.value.classes.bottomRight || cell.value.classes.bottom || cell.value.classes.right" class="board-cell-bottom-right"></span>
-    row {{ row.key }}
-    <br>
-    col {{ cell.key }}
-    <br>
-    {{ cell.value.name }}
-    <br>
-    {{ cell.value.neighbors }}
-  </div>
+    [tile]="cell.value"
+    (addTileEvent)="addTile($event)"
+  ></ui-tile>
 </div>

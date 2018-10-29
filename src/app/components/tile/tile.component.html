@@ -1,3 +1,18 @@
-<div>
-
+<div
+  class="tile"
+  [class.tile-defined]="tile.define"
+  [class.tile-available]="tile.available && !tile.define"
+  [class.tile-top]="tile.classes.top"
+  [class.tile-right]="tile.classes.right"
+  [class.tile-left]="tile.classes.left"
+  [class.tile-bottom]="tile.classes.bottom"
+  (click)="addTile()"
+>
+  <span *ngIf="tile.classes.topLeft || tile.classes.top || tile.classes.left" class="tile-top-left"></span>
+  <span *ngIf="tile.classes.topRight || tile.classes.top || tile.classes.right" class="tile-top-right"></span>
+  <span *ngIf="tile.classes.bottomLeft || tile.classes.bottom || tile.classes.left" class="tile-bottom-left"></span>
+  <span *ngIf="tile.classes.bottomRight || tile.classes.bottom || tile.classes.right" class="tile-bottom-right"></span>
+  [{{ tile.rowIndex }}][{{ tile.columnIndex }}]
+  <br>
+  {{ tile.neighbors }}
 </div>
