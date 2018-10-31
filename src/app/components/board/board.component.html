@@ -2,8 +2,8 @@
   class="board-wrapper"
   (mousedown)="boardDragStart($event)"
   (mousemove)="boardDragMove($event)"
-  (mouseup)="boardDragStop($event)"
-  (mouseleave)="boardDragStop($event)"
+  (mouseup)="boardDragStop()"
+  (mouseleave)="boardDragStop()"
 >
   <div
     #boardContainer
@@ -24,19 +24,19 @@
 </div>
 <div
   class="board-button board-button-top"
-  (mousedown)="moveViewVertical(100)"
+  (mousedown)="viewVerticalMove(1)"
 ></div>
 <div
   class="board-button board-button-bottom"
-  (mousedown)="moveViewVertical(-100)"
+  (mousedown)="viewVerticalMove(-1)"
 ></div>
 <div
   class="board-button board-button-left"
-  (mousedown)="moveViewHorizontal(100)"
+  (mousedown)="viewHorizontalMove(1)"
 ></div>
 <div
   class="board-button board-button-right"
-  (mousedown)="moveViewHorizontal(-100)"
+  (mousedown)="viewHorizontalMove(-1)"
 ></div>
 <div
   class="board-button board-button-zoom board-button-zoom-in"

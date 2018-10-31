@@ -5,7 +5,11 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { Tile } from '@interfaces';
+import { BoardSettings } from '@constants';
+import {
+  Tile,
+  TileClasses
+} from '@interfaces';
 import { BoardService } from '@services';
 
 @Component({
@@ -16,14 +20,13 @@ import { BoardService } from '@services';
 export class BoardComponent implements OnInit {
   @ViewChild('boardContainer') boardContainer: ElementRef;
   public boardData: [Tile[]];
-  public boardTransform = 'translate(0, 0) scale(1)';
   private tileIndex = 0;
   private viewPositionX = 0;
   private viewPositionY = 0;
   private mousePositionX: number;
   private mousePositionY: number;
   private mouseDrag = false;
-  private zoom = 1;
+  private zoom = BoardSettings.zoom.initial;
 
   constructor(
     private renderer: Renderer2,
@@ -41,8 +44,6 @@ export class BoardComponent implements OnInit {
     this.addLeadingColumn();
     this.addTrailingColumn();
     this.setBoardData();
-
-    console.log(this.boardContainer);
   }
 
   private setInitialTile(): void {
@@ -54,16 +55,7 @@ export class BoardComponent implements OnInit {
   private setBoardData(): void {
     this.boardData.forEach((row, rowIndex) => {
       row.forEach((tile, columnIndex) => {
-        tile.classes = {
-          topLeft: false,
-          top: false,
-          topRight: false,
-          right: false,
-          left: false,
-          bottomLeft: false,
-          bottom: false,
-          bottomRight: false
-        };
+        tile.classes = new TileClasses();
         tile.rowIndex = rowIndex;
         tile.columnIndex = columnIndex;
         tile.neighbors = 0;
@@ -163,18 +155,25 @@ export class BoardComponent implements OnInit {
     this.setBoardData();
   }
 
-  private moveViewVertical(factor: number): void {
-    this.viewPositionY = this.viewPositionY + factor;
+  private setBoardTransform(): void {
+    this.renderer.setStyle(
+      this.boardContainer.nativeElement,
+      'transform',
+      `translate(${this.viewPositionX}px, ${this.viewPositionY}px) scale(${this.zoom})`
+    );
+  }
+
+  private viewVerticalMove(factor: number): void {
+    this.viewPositionY = this.viewPositionY + 100 * factor;
     this.setBoardTransform();
   }
 
-  private moveViewHorizontal(factor: number): void {
-    this.viewPositionX = this.viewPositionX + factor;
+  private viewHorizontalMove(factor: number): void {
+    this.viewPositionX = this.viewPositionX + 100 * factor;
     this.setBoardTransform();
   }
 
   private boardDragStart(event: MouseEvent): void {
-    console.log(event);
     this.mousePositionX = event.clientX;
     this.mousePositionY = event.clientY;
     this.mouseDrag = true;
@@ -188,32 +187,23 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  private boardDragStop(event: MouseEvent): void {
-    console.log(event);
+  private boardDragStop(): void {
     this.mouseDrag = false;
   }
 
   private zoomIn(): void {
-    this.zoom += 0.1;
+    this.zoom += BoardSettings.zoom.ratio;
     this.setBoardTransform();
   }
 
   private zoomOut(): void {
-    this.zoom -= 0.1;
+    this.zoom -= BoardSettings.zoom.ratio;
     this.setBoardTransform();
   }
 
   private zoomReset(): void {
-    this.zoom = 1;
+    this.zoom = BoardSettings.zoom.initial;
     this.setBoardTransform();
-  }
-
-  private setBoardTransform(): void {
-    this.renderer.setStyle(
-      this.boardContainer.nativeElement,
-      'transform',
-      `translate(${this.viewPositionX}px, ${this.viewPositionY}px) scale(${this.zoom})`
-    );
   }
 
   private resetView(): void {
