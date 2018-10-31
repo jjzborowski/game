@@ -1,8 +1,10 @@
 import {
   Component,
-  OnInit
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild
 } from '@angular/core';
-import { TileComponent } from '@components';
 import { Tile } from '@interfaces';
 import { BoardService } from '@services';
 
@@ -12,13 +14,21 @@ import { BoardService } from '@services';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+  @ViewChild('boardContainer') boardContainer: ElementRef;
   public boardData: [Tile[]];
+  public boardTransform = 'translate(0, 0) scale(1)';
   private tileIndex = 0;
   private viewPositionX = 0;
   private viewPositionY = 0;
-  private zoom = 0;
+  private mousePositionX: number;
+  private mousePositionY: number;
+  private mouseDrag = false;
+  private zoom = 1;
 
-  constructor(private boardService: BoardService) { }
+  constructor(
+    private renderer: Renderer2,
+    private boardService: BoardService
+  ) { }
 
   ngOnInit() {
     this.initBoardData();
@@ -31,11 +41,14 @@ export class BoardComponent implements OnInit {
     this.addLeadingColumn();
     this.addTrailingColumn();
     this.setBoardData();
+
+    console.log(this.boardContainer);
   }
 
   private setInitialTile(): void {
     this.boardData = [[new Tile()]];
     this.boardData[0][0].define = true;
+    this.boardData[0][0].initial = true;
   }
 
   private setBoardData(): void {
@@ -134,15 +147,6 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  private isAvailable(rowIndex: number, columnIndex: number): boolean {
-    if (this.boardData[rowIndex]) {
-      const tile = this.boardData[rowIndex][columnIndex];
-      return tile && tile.available;
-    } else {
-      return false;
-    }
-  }
-
   private addTile(tile: Tile): void {
     console.log(tile);
     this.tileIndex++;
@@ -159,18 +163,59 @@ export class BoardComponent implements OnInit {
     this.setBoardData();
   }
 
-  private moveViewVertical(): void {
+  private moveViewVertical(factor: number): void {
+    this.viewPositionY = this.viewPositionY + factor;
+    this.setBoardTransform();
   }
 
-  private moveViewHorizontal(): void {
+  private moveViewHorizontal(factor: number): void {
+    this.viewPositionX = this.viewPositionX + factor;
+    this.setBoardTransform();
   }
 
-  private resetView(): void {
+  private boardDragStart(event: MouseEvent): void {
+    console.log(event);
+    this.mousePositionX = event.clientX;
+    this.mousePositionY = event.clientY;
+    this.mouseDrag = true;
+  }
+
+  private boardDragMove(event: MouseEvent): void {
+    if (this.mouseDrag) {
+      this.viewPositionX = event.clientX - this.mousePositionX;
+      this.viewPositionY = event.clientY - this.mousePositionY;
+      this.setBoardTransform();
+    }
+  }
+
+  private boardDragStop(event: MouseEvent): void {
+    console.log(event);
+    this.mouseDrag = false;
   }
 
   private zoomIn(): void {
+    this.zoom += 0.1;
+    this.setBoardTransform();
   }
 
   private zoomOut(): void {
+    this.zoom -= 0.1;
+    this.setBoardTransform();
+  }
+
+  private zoomReset(): void {
+    this.zoom = 1;
+    this.setBoardTransform();
+  }
+
+  private setBoardTransform(): void {
+    this.renderer.setStyle(
+      this.boardContainer.nativeElement,
+      'transform',
+      `translate(${this.viewPositionX}px, ${this.viewPositionY}px) scale(${this.zoom})`
+    );
+  }
+
+  private resetView(): void {
   }
 }

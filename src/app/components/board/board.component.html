@@ -1,11 +1,52 @@
 <div
-  *ngFor="let row of boardData | keyvalue"
-  class="board-row"
+  class="board-wrapper"
+  (mousedown)="boardDragStart($event)"
+  (mousemove)="boardDragMove($event)"
+  (mouseup)="boardDragStop($event)"
+  (mouseleave)="boardDragStop($event)"
 >
-  <ui-tile
-    *ngFor="let cell of row.value | keyvalue"
-    class="board-cell"
-    [tile]="cell.value"
-    (addTileEvent)="addTile($event)"
-  ></ui-tile>
+  <div
+    #boardContainer
+    class="board-container"
+  >
+    <div
+      *ngFor="let row of boardData | keyvalue"
+      class="board-row"
+    >
+      <ui-tile
+        *ngFor="let cell of row.value | keyvalue"
+        class="board-cell"
+        [tile]="cell.value"
+        (addTileEvent)="addTile($event)"
+      ></ui-tile>
+    </div>
+  </div>
 </div>
+<div
+  class="board-button board-button-top"
+  (mousedown)="moveViewVertical(100)"
+></div>
+<div
+  class="board-button board-button-bottom"
+  (mousedown)="moveViewVertical(-100)"
+></div>
+<div
+  class="board-button board-button-left"
+  (mousedown)="moveViewHorizontal(100)"
+></div>
+<div
+  class="board-button board-button-right"
+  (mousedown)="moveViewHorizontal(-100)"
+></div>
+<div
+  class="board-button board-button-zoom board-button-zoom-in"
+  (click)="zoomIn()"
+>+</div>
+<div
+  class="board-button board-button-zoom board-button-zoom-reset"
+  (click)="zoomReset()"
+>x</div>
+<div
+  class="board-button board-button-zoom board-button-zoom-out"
+  (click)="zoomOut()"
+>-</div>

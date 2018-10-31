@@ -11,6 +11,7 @@ export class Tile {
     bottomRight: false
   };
   public define = false;
+  public initial = false;
   public neighbors = 0;
   public rowIndex = 0;
   public columnIndex = 0;
